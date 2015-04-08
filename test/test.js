@@ -42,14 +42,15 @@ test('fetches all data', function (t) {
 })
 
 test('emits error on HTTP error', function (t) {
-  t.plan(3)
+  t.plan(4)
 
   var url = resolve(location.href, '/404')
     , s = new Stream({url: url})
 
   s.on('error', function (err) {
     t.ok(err)
-    t.equal(err.status, 404)
+    t.ok(err.xhr)
+    t.equal(err.xhr.status, 404)
     t.equal(err.message, 'Not Found')
 
     t.end()
