@@ -38,8 +38,10 @@ Stream.prototype.handle = function () {
       this.capable = false
     }
   } else if (this.xhr.readyState === 4) {
-    if (this.xhr.error) {
-      this.emit('error')
+    if (this.xhr.status >= 400) {
+      var e = new Error(this.xhr.statusText || this.xhr.status)
+      e.xhr = this.xhr
+      this.emit('error', e)
     } else {
       this.downloaded = true
       flush(this)

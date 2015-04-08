@@ -40,3 +40,23 @@ test('fetches all data', function (t) {
 
   s.pipe(write)
 })
+
+test('emits error on HTTP error', function (t) {
+  t.plan(4)
+
+  var url = resolve(location.href, '/404')
+    , s = new Stream({url: url})
+
+  s.on('error', function (err) {
+    t.ok(err)
+    t.ok(err.xhr)
+    t.equal(err.xhr.status, 404)
+    t.equal(err.message, 'Not Found')
+
+    t.end()
+  })
+
+  setTimeout(function () {
+    t.end()
+  }, 500)
+})
