@@ -59,7 +59,10 @@ Stream.prototype.write = function () {
 }
 
 function flush (stream) {
-  if (!stream.xhr.responseText) {
+  // In IE9, responseText will be "unknown" (not undefined) until the response is done, and
+  // any attempt to access it throws this error:
+  //   SCRIPT10: The data necessary to complete this operation is not yet available
+  if (typeof stream.xhr.responseText === 'unknown' || !stream.xhr.responseText) {
     return
   }
   while (stream._state === 'flowing' && stream.xhr.responseText.length - stream.offset != 0 &&
