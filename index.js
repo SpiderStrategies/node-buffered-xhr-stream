@@ -31,13 +31,13 @@ function Stream (options) {
 util.inherits(Stream, stream.Stream)
 
 Stream.prototype.handle = function () {
-  if (this.capable && this.xhr.readyState === 3) {
+  if (this.capable && this.xhr.readyState === XMLHttpRequest.LOADING) {
     try {
       this.write()
     } catch (e) {
       this.capable = false
     }
-  } else if (this.xhr.readyState === 4) {
+  } else if (this.xhr.readyState === XMLHttpRequest.DONE) {
     if (this.xhr.status >= 400) {
       var e = new Error(this.xhr.statusText || this.xhr.status)
       e.xhr = this.xhr
