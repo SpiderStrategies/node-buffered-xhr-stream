@@ -22,10 +22,13 @@ function Stream (options) {
   this.xhr = options.xhr
   if (options.url) {
     this.xhr = new XMLHttpRequest
-    this.xhr.open('GET', options.url, true)
+    this.xhr.open(options.method || 'GET', options.url, true)
+  }
+  if (options.contentType) {
+    this.xhr.setRequestHeader('Content-type', options.contentType)
   }
   this.xhr.onreadystatechange = this.handle.bind(this)
-  this.xhr.send(null)
+  this.xhr.send(options.data)
 }
 
 util.inherits(Stream, stream.Stream)
