@@ -34,6 +34,7 @@ function Stream (options) {
 util.inherits(Stream, stream.Stream)
 
 Stream.prototype.handle = function () {
+  this.emit('readystatechange', this.xhr.readyState)
   if (this.capable && this.xhr.readyState === XMLHttpRequest.LOADING) {
     try {
       this.write()
