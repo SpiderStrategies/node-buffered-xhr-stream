@@ -11,7 +11,6 @@ function Stream (options) {
 
   stream.Stream.call(this)
   this.offset = 0
-  this.paused = false
   this.chunkSize = options.chunkSize || 65536
   this.readable = true
   this.writeable = true
