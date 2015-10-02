@@ -71,8 +71,10 @@ function flush (stream) {
   while (stream._state === 'flowing' && stream.xhr.responseText.length - stream.offset != 0 &&
     (stream.downloaded || stream.xhr.responseText.length - stream.offset >= stream.chunkSize)) {
     var chunk = stream.xhr.responseText.substr(stream.offset, stream.chunkSize)
-    stream.emit('data', chunk)
     stream.offset += chunk.length
+    // emit chunk LAST in case triggering the data event leads to even more
+    // data being flushed
+    stream.emit('data', chunk)
   }
 
   if (stream.offset === stream.xhr.responseText.length) {
