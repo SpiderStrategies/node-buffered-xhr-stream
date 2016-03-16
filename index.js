@@ -77,7 +77,8 @@ function flush (stream) {
     stream.emit('data', chunk)
   }
 
-  if (stream.offset === stream.xhr.responseText.length) {
+  if (stream.xhr.readyState === XMLHttpRequest.DONE &&
+      stream.offset === stream.xhr.responseText.length) {
     stream.emit('end')
   }
 }
