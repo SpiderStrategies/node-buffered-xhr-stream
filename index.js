@@ -41,7 +41,8 @@ Stream.prototype.handle = function () {
       this.capable = false
     }
   } else if (this.xhr.readyState === XMLHttpRequest.DONE) {
-    if (this.xhr.status >= 400) {
+    // A zero status can occur if there is no internet connection
+    if (this.xhr.status >= 400 || this.xhr.status == 0) {
       var e = new Error(this.xhr.statusText || this.xhr.status)
       e.xhr = this.xhr
       this.emit('error', e)
